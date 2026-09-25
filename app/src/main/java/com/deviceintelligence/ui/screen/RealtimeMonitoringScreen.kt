@@ -329,7 +329,9 @@ private fun MiniStat(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.weight(1f)
+        modifier = Modifier
+            .weight(1f)
+            .fillMaxWidth()
     ) {
         Text(
             value,

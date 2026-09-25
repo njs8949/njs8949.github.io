@@ -183,6 +183,9 @@ fun AnalyticsScreen(
                             )
                         }
                     }
+                }
+
+                item {
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }

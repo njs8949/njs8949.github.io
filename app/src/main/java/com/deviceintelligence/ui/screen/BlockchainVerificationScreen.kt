@@ -231,7 +231,10 @@ private fun ChainIntegrityContent(
                         }
                     }
                 }
-                Spacer(modifier = Modifier.height(12.dp))
+
+                item {
+                    Spacer(modifier = Modifier.height(12.dp))
+                }
             }
         }
 
@@ -417,15 +420,15 @@ private fun SmartContractContent(
 
         item {
             Spacer(modifier = Modifier.height(16.dp))
-            Button(
-                onClick = onExecute,
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(16.dp)
-            ) {
-                Icon(Icons.Default.PlayArrow, contentDescription = null)
-                Spacer(modifier = Modifier.width(8.dp))
-                Text("계약 실행")
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                Button(
+                    onClick = onExecute,
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    Icon(Icons.Default.PlayArrow, contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("계약 실행")
+                }
             }
         }
 
