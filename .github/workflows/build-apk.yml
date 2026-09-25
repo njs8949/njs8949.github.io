@@ -22,7 +22,9 @@ jobs:
       run: chmod +x ./gradlew
 
     - name: Build APK with Gradle
-      run: ./gradlew assembleDebug --stacktrace 2>&1 | tee build.log
+      run: |
+        set -e
+        ./gradlew assembleDebug --stacktrace 2>&1 | tee build.log
 
     - name: Check build output
       if: always()
