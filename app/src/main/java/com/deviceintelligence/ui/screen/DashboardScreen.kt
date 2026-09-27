@@ -479,7 +479,7 @@ class SystemInfoCollector(private val context: Context) {
         val usedMemory = totalMemory - availMemory
         val totalMemoryGB = totalMemory / (1024 * 1024 * 1024)
         val usedMemoryGB = usedMemory / (1024 * 1024 * 1024)
-        val memoryPercent = if (totalMemory > 0) (usedMemory * 100) / totalMemory else 0
+        val memoryPercent: Int = if (totalMemory > 0) ((usedMemory * 100) / totalMemory).toInt() else 0
         val memoryInfoStr = "$usedMemoryGB/$totalMemoryGB GB ($memoryPercent%)"
         val memoryTrend = getTrend(memoryPercent, prevMemoryPercent)
         prevMemoryPercent = memoryPercent
@@ -495,7 +495,7 @@ class SystemInfoCollector(private val context: Context) {
         val batteryStatus = context.registerReceiver(null, ifilter)
         val batteryLevel = batteryStatus?.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) ?: 0
         val scale = batteryStatus?.getIntExtra(BatteryManager.EXTRA_SCALE, -1) ?: 100
-        val batteryPercent = (batteryLevel * 100) / scale
+        val batteryPercent: Int = (batteryLevel * 100) / scale
         val batteryInfo = "$batteryPercent%"
         val batteryTrend = getTrend(batteryPercent, prevBatteryPercent)
         prevBatteryPercent = batteryPercent
