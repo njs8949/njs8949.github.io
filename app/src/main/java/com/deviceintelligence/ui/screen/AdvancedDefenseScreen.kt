@@ -257,7 +257,7 @@ fun SecuritySectionHeader(title: String, count: Int, color: Color) {
             )
         ) {
             Text(
-                "$count건",
+                "${count}건",
                 style = MaterialTheme.typography.labelSmall.copy(
                     fontWeight = FontWeight.Bold
                 ),
