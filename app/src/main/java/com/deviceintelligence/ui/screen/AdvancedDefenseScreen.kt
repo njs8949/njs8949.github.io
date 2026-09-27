@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.deviceintelligence.ui.screen
 
 import android.widget.Toast
@@ -46,46 +48,9 @@ fun AdvancedDefenseScreen(
                 .padding(paddingValues)
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            // 종합 위협 점수
+            // 종합 위협 점수 - 원형 표시
             item {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                        .height(160.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        Text(
-                            text = "AI Attack Threat Level",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = "${overallScore.toInt()}",
-                            style = MaterialTheme.typography.displayLarge.copy(
-                                fontSize = 70.sp,
-                                fontWeight = FontWeight.Bold
-                            ),
-                            color = when {
-                                overallScore >= 80 -> Color(0xFFEF5350)
-                                overallScore >= 60 -> Color(0xFFFFA726)
-                                else -> Color(0xFF66BB6A)
-                            }
-                        )
-                        Text(
-                            text = "/100",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                    }
-                }
-                Spacer(modifier = Modifier.height(8.dp))
+                SecurityThreatScoreDisplay(overallScore)
             }
 
             // 위협 통계
@@ -114,99 +79,76 @@ fun AdvancedDefenseScreen(
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
-            // 대응적 AI 방어
+            // 위협 유형별 섹션
             item {
-                if (aiToolThreats.isNotEmpty()) {
-                    Text(
-                        "Adversarial Threats (${aiToolThreats.size})",
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
+                Spacer(modifier = Modifier.height(8.dp))
+                Divider()
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
+            // 대응적 AI 방어
+            if (aiToolThreats.isNotEmpty()) {
+                item {
+                    SecuritySectionHeader("🔴 대응적 AI 위협", aiToolThreats.size, Color(0xFFEF5350))
+                }
+                items(aiToolThreats.size) { index ->
+                    ThreatCardAdvanced(threat = aiToolThreats[index])
+                }
+                item {
                     Spacer(modifier = Modifier.height(8.dp))
-                    Column {
-                        aiToolThreats.forEach { threat ->
-                            ThreatCardAdvanced(threat = threat)
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
 
             // 프롬프트 인젝션
-            item {
-                if (promptInjections.isNotEmpty()) {
-                    Text(
-                        "Prompt Injection (${promptInjections.size})",
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
+            if (promptInjections.isNotEmpty()) {
+                item {
+                    SecuritySectionHeader("🟠 프롬프트 인젝션", promptInjections.size, Color(0xFFFF6B6B))
+                }
+                items(promptInjections.size) { index ->
+                    PromptInjectionCard(injection = promptInjections[index])
+                }
+                item {
                     Spacer(modifier = Modifier.height(8.dp))
-                    Column {
-                        promptInjections.forEach { injection ->
-                            PromptInjectionCard(injection = injection)
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
 
             // 모델 추출 공격
-            item {
-                if (modelExtraction.isNotEmpty()) {
-                    Text(
-                        "Model Extraction (${modelExtraction.size})",
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
+            if (modelExtraction.isNotEmpty()) {
+                item {
+                    SecuritySectionHeader("🟣 모델 탈취 시도", modelExtraction.size, Color(0xFF9C27B0))
+                }
+                items(modelExtraction.size) { index ->
+                    ModelExtractionCard(attack = modelExtraction[index])
+                }
+                item {
                     Spacer(modifier = Modifier.height(8.dp))
-                    Column {
-                        modelExtraction.forEach { attack ->
-                            ModelExtractionCard(attack = attack)
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
 
             // Zero-Day 위협
-            item {
-                if (zeroDayThreats.isNotEmpty()) {
-                    Text(
-                        "Zero-Day (${zeroDayThreats.size})",
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
+            if (zeroDayThreats.isNotEmpty()) {
+                item {
+                    SecuritySectionHeader("🔺 제로데이 취약점", zeroDayThreats.size, Color(0xFFEF5350))
+                }
+                items(zeroDayThreats.size) { index ->
+                    ZeroDayCard(threat = zeroDayThreats[index])
+                }
+                item {
                     Spacer(modifier = Modifier.height(8.dp))
-                    Column {
-                        zeroDayThreats.forEach { threat ->
-                            ZeroDayCard(threat = threat)
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
 
             // Deep Fake 감지
-            item {
-                val deepFakeDetected = deepFakeResults.filter { it.isDeepFake }
-                if (deepFakeDetected.isNotEmpty()) {
-                    Text(
-                        "Deep Fake (${deepFakeDetected.size})",
-                        style = MaterialTheme.typography.titleMedium,
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
+            val deepFakeDetected = deepFakeResults.filter { it.isDeepFake }
+            if (deepFakeDetected.isNotEmpty()) {
+                item {
+                    SecuritySectionHeader("⚠️ 딥페이크 감지", deepFakeDetected.size, Color(0xFFEF5350))
+                }
+                items(deepFakeDetected.size) { index ->
+                    DeepFakeCard(result = deepFakeDetected[index])
+                }
+                item {
                     Spacer(modifier = Modifier.height(8.dp))
-                    Column {
-                        deepFakeDetected.forEach { result ->
-                            DeepFakeCard(result = result)
-                        }
-                    }
-                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
 
@@ -215,6 +157,116 @@ fun AdvancedDefenseScreen(
             }
         }
     }
+}
+
+@Composable
+fun SecurityThreatScoreDisplay(score: Float) {
+    val scoreColor = when {
+        score >= 80 -> Color(0xFFEF5350)
+        score >= 60 -> Color(0xFFFFA726)
+        else -> Color(0xFF66BB6A)
+    }
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = scoreColor.copy(alpha = 0.15f)
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                "AI 공격 위협 수준",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Box(
+                modifier = Modifier.size(140.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(
+                    progress = score / 100f,
+                    modifier = Modifier.size(140.dp),
+                    color = scoreColor,
+                    strokeWidth = 8.dp,
+                    trackColor = MaterialTheme.colorScheme.surfaceVariant
+                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        "${score.toInt()}",
+                        style = MaterialTheme.typography.displayMedium.copy(
+                            fontSize = 56.sp,
+                            fontWeight = FontWeight.Bold
+                        ),
+                        color = scoreColor
+                    )
+                    Text(
+                        "/100",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                when {
+                    score >= 80 -> "🔴 높은 위협"
+                    score >= 60 -> "🟠 중간 위협"
+                    else -> "🟢 낮은 위협"
+                },
+                style = MaterialTheme.typography.bodyMedium,
+                color = scoreColor,
+                fontWeight = FontWeight.Bold
+            )
+        }
+    }
+}
+
+@Composable
+fun SecuritySectionHeader(title: String, count: Int, color: Color) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            title,
+            style = MaterialTheme.typography.headlineSmall.copy(
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            ),
+            color = color
+        )
+        Card(
+            colors = CardDefaults.cardColors(
+                containerColor = color.copy(alpha = 0.2f)
+            )
+        ) {
+            Text(
+                "$count건",
+                style = MaterialTheme.typography.labelSmall.copy(
+                    fontWeight = FontWeight.Bold
+                ),
+                color = color,
+                modifier = Modifier.padding(6.dp, 2.dp)
+            )
+        }
+    }
+    Spacer(modifier = Modifier.height(12.dp))
 }
 
 @Composable
