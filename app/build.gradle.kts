@@ -3,7 +3,10 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
+
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 android {
     namespace = "com.deviceintelligence"
@@ -37,9 +40,9 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    kotlinOptions {
-        jvmTarget = "11"
-        freeCompilerArgs += listOf(
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_11
+        freeCompilerArgs.addAll(
             "-P", "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=1.8.10"
         )
     }
@@ -48,7 +51,7 @@ android {
         compose = true
     }
 
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
@@ -56,11 +59,15 @@ android {
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    kotlinOptions.jvmTarget = "11"
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_11
+    }
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KaptGenerateStubs> {
-    kotlinOptions.jvmTarget = "11"
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_11
+    }
 }
 
 dependencies {
