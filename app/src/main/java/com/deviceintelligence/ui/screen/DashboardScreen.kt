@@ -94,28 +94,28 @@ fun DashboardScreen(navController: NavController) {
                     icon = Icons.Default.Memory,
                     title = "메모리",
                     value = systemInfo.value.memory,
-                    percent = systemInfo.value.memoryPercent.toInt(),
+                    percent = systemInfo.value.memoryPercent,
                     trend = systemInfo.value.memoryTrend
                 )
                 MetricCardWithCircularProgress(
                     icon = Icons.Default.BatteryChargingFull,
                     title = "배터리",
                     value = systemInfo.value.battery,
-                    percent = systemInfo.value.batteryPercent.toInt(),
+                    percent = systemInfo.value.batteryPercent,
                     trend = systemInfo.value.batteryTrend
                 )
                 MetricCardWithCircularProgress(
                     icon = Icons.Default.Speed,
                     title = "CPU",
                     value = systemInfo.value.cpu,
-                    percent = systemInfo.value.cpuPercent.toInt(),
+                    percent = systemInfo.value.cpuPercent,
                     trend = systemInfo.value.cpuTrend
                 )
                 MetricCardWithCircularProgress(
                     icon = Icons.Default.Storage,
                     title = "저장소",
                     value = systemInfo.value.storage,
-                    percent = systemInfo.value.storagePercent.toInt(),
+                    percent = systemInfo.value.storagePercent,
                     trend = "→"
                 )
                 MetricCardWithCircularProgress(
@@ -217,13 +217,13 @@ fun SystemStatusSummary(systemInfo: SystemInfo) {
     ) {
         StatusChip(
             label = "메모리",
-            status = getStatusLabel(systemInfo.memoryPercent.toInt()),
+            status = getStatusLabel(systemInfo.memoryPercent),
             color = getStatusColor("Memory", systemInfo.memoryPercent / 100f),
             modifier = Modifier.weight(1f)
         )
         StatusChip(
             label = "배터리",
-            status = getStatusLabel(systemInfo.batteryPercent.toInt()),
+            status = getStatusLabel(systemInfo.batteryPercent),
             color = getStatusColor("Battery", systemInfo.batteryPercent / 100f),
             modifier = Modifier.weight(1f)
         )
@@ -446,13 +446,13 @@ fun getStatusColor(title: String, progress: Float): Color {
 data class SystemInfo(
     val healthScore: Int,
     val memory: String,
-    val memoryPercent: Long,
+    val memoryPercent: Int,
     val cpu: String,
-    val cpuPercent: Long,
+    val cpuPercent: Int,
     val battery: String,
-    val batteryPercent: Long,
+    val batteryPercent: Int,
     val storage: String,
-    val storagePercent: Long,
+    val storagePercent: Int,
     val temperature: String,
     val tempValue: Float,
     val device: String,
