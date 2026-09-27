@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -5,8 +7,6 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.compose")
 }
-
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 android {
     namespace = "com.deviceintelligence"
@@ -40,9 +40,9 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    compilerOptions {
-        jvmTarget = JvmTarget.JVM_11
-        freeCompilerArgs.addAll(
+    kotlinOptions {
+        jvmTarget = "11"
+        freeCompilerArgs += listOf(
             "-P", "plugin:androidx.compose.compiler.plugins.kotlin:suppressKotlinVersionCompatibilityCheck=1.8.10"
         )
     }
@@ -55,18 +55,6 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
-    }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-    compilerOptions {
-        jvmTarget = JvmTarget.JVM_11
-    }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KaptGenerateStubs> {
-    compilerOptions {
-        jvmTarget = JvmTarget.JVM_11
     }
 }
 
