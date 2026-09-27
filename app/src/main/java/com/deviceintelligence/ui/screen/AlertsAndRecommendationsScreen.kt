@@ -19,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.deviceintelligence.utils.getCurrentStrings
 import com.deviceintelligence.viewmodel.AdvancedDefenseViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AlertsAndRecommendationsScreen(
     viewModel: AdvancedDefenseViewModel = hiltViewModel()

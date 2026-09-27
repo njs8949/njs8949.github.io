@@ -19,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.deviceintelligence.utils.getCurrentStrings
 import com.deviceintelligence.viewmodel.MonitoringViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RealtimeMonitoringScreen(
     viewModel: MonitoringViewModel = hiltViewModel()
@@ -221,12 +222,13 @@ fun RealtimeMonitoringScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(12.dp),
-                            horizontalArrangement = Arrangement.SpaceEvenly,
+                            horizontalArrangement = Arrangement.spacedBy(4.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             MiniStat(
                                 label = "실행 중인 프로세스",
-                                value = realtimeData.processCount.toString()
+                                value = realtimeData.processCount.toString(),
+                                modifier = Modifier.weight(1f)
                             )
                             Box(
                                 modifier = Modifier
@@ -236,7 +238,8 @@ fun RealtimeMonitoringScreen(
                             )
                             MiniStat(
                                 label = "의심 앱",
-                                value = realtimeData.suspiciousApps.toString()
+                                value = realtimeData.suspiciousApps.toString(),
+                                modifier = Modifier.weight(1f)
                             )
                             Box(
                                 modifier = Modifier
@@ -246,7 +249,8 @@ fun RealtimeMonitoringScreen(
                             )
                             MiniStat(
                                 label = "평균 위협점수",
-                                value = "${averageThreatScore.toInt()}"
+                                value = "${averageThreatScore.toInt()}",
+                                modifier = Modifier.weight(1f)
                             )
                         }
                     }
@@ -325,13 +329,12 @@ private fun MonitoringMetricItem(
 @Composable
 private fun MiniStat(
     label: String,
-    value: String
+    value: String,
+    modifier: Modifier = Modifier
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .weight(1f)
-            .fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
         Text(
             value,

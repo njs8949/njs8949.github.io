@@ -20,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.deviceintelligence.utils.getCurrentStrings
 import com.deviceintelligence.viewmodel.RuleManagementViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RuleManagementScreen(
     viewModel: RuleManagementViewModel = hiltViewModel()

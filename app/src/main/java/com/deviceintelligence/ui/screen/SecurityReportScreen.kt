@@ -23,6 +23,7 @@ import com.deviceintelligence.viewmodel.AnalyticsViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SecurityReportScreen(
     viewModel: AnalyticsViewModel = hiltViewModel()
