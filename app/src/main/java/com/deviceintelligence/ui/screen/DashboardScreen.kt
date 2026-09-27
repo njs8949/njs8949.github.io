@@ -94,28 +94,28 @@ fun DashboardScreen(navController: NavController) {
                     icon = Icons.Default.Memory,
                     title = "메모리",
                     value = systemInfo.value.memory,
-                    percent = systemInfo.value.memoryPercent,
+                    percent = systemInfo.value.memoryPercent.toInt(),
                     trend = systemInfo.value.memoryTrend
                 )
                 MetricCardWithCircularProgress(
                     icon = Icons.Default.BatteryChargingFull,
                     title = "배터리",
                     value = systemInfo.value.battery,
-                    percent = systemInfo.value.batteryPercent,
+                    percent = systemInfo.value.batteryPercent.toInt(),
                     trend = systemInfo.value.batteryTrend
                 )
                 MetricCardWithCircularProgress(
                     icon = Icons.Default.Speed,
                     title = "CPU",
                     value = systemInfo.value.cpu,
-                    percent = systemInfo.value.cpuPercent,
+                    percent = systemInfo.value.cpuPercent.toInt(),
                     trend = systemInfo.value.cpuTrend
                 )
                 MetricCardWithCircularProgress(
                     icon = Icons.Default.Storage,
                     title = "저장소",
                     value = systemInfo.value.storage,
-                    percent = systemInfo.value.storagePercent,
+                    percent = systemInfo.value.storagePercent.toInt(),
                     trend = "→"
                 )
                 MetricCardWithCircularProgress(
@@ -171,7 +171,7 @@ fun HealthScoreDisplay(healthScore: Int) {
                     modifier = Modifier.size(140.dp),
                     color = scoreColor,
                     strokeWidth = 8.dp,
-                    backgroundColor = MaterialTheme.colorScheme.surfaceVariant
+                    trackColor = MaterialTheme.colorScheme.surfaceVariant
                 )
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -217,13 +217,13 @@ fun SystemStatusSummary(systemInfo: SystemInfo) {
     ) {
         StatusChip(
             label = "메모리",
-            status = getStatusLabel(systemInfo.memoryPercent),
+            status = getStatusLabel(systemInfo.memoryPercent.toInt()),
             color = getStatusColor("Memory", systemInfo.memoryPercent / 100f),
             modifier = Modifier.weight(1f)
         )
         StatusChip(
             label = "배터리",
-            status = getStatusLabel(systemInfo.batteryPercent),
+            status = getStatusLabel(systemInfo.batteryPercent.toInt()),
             color = getStatusColor("Battery", systemInfo.batteryPercent / 100f),
             modifier = Modifier.weight(1f)
         )
@@ -339,7 +339,7 @@ fun MetricCardWithCircularProgress(
                     modifier = Modifier.size(60.dp),
                     color = statusColor,
                     strokeWidth = 4.dp,
-                    backgroundColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.2f)
+                    trackColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.2f)
                 )
                 Text(
                     "$percent%",
@@ -446,13 +446,13 @@ fun getStatusColor(title: String, progress: Float): Color {
 data class SystemInfo(
     val healthScore: Int,
     val memory: String,
-    val memoryPercent: Int,
+    val memoryPercent: Long,
     val cpu: String,
-    val cpuPercent: Int,
+    val cpuPercent: Long,
     val battery: String,
-    val batteryPercent: Int,
+    val batteryPercent: Long,
     val storage: String,
-    val storagePercent: Int,
+    val storagePercent: Long,
     val temperature: String,
     val tempValue: Float,
     val device: String,
